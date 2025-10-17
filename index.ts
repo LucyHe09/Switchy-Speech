@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { speechToText } from "./functions/speechToText";
+import { translateWithGemini } from "./functions/translateWithGemini";
 import cors from "cors";
 import "dotenv/config";
 
@@ -13,6 +14,10 @@ app.use(cors());
 
 app.post("/speech-to-text", (req: Request, res: Response) => {
   speechToText(req, res);
+});
+
+app.post("/translate-with-gemini", (req: Request, res: Response) => {
+  translateWithGemini(req, res);
 });
 
 app.get("/", (req, res) => {
