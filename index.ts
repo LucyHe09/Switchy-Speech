@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { speechToText } from "./functions/speechToText";
 import { translateWithGemini } from "./functions/translateWithGemini";
+//import textToSpeechRoute from "./functions/textToSpeechRoute";
 import cors from "cors";
 import "dotenv/config";
 
@@ -19,6 +20,9 @@ app.post("/speech-to-text", (req: Request, res: Response) => {
 app.post("/translate-with-gemini", (req: Request, res: Response) => {
   translateWithGemini(req, res);
 });
+
+// mount text-to-speech route
+// app.use(textToSpeechRoute);
 
 app.get("/", (req, res) => {
   res.send("The Speech-to-Text API is up and running!");
