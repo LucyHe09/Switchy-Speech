@@ -1,36 +1,38 @@
 import { Request, Response } from "express";
+import { v1p1beta1 } from "@google-cloud/speech";
+
+const client = new v1p1beta1.SpeechClient();
 
 export const speechToText = async (req: Request, res: Response) => {
   const data = req.body;
-  const audioUrl = data?.audioUrl;
+  const audioBase64 = data?.audioUrl; // expect plain base64 (no data:* prefix)
   const audioConfig = data?.config;
 
-  if (!audioUrl) return res.status(422).send("No audio URL was provided.");
+  if (!audioBase64) return res.status(422).send("No audio URL was provided.");
   if (!audioConfig)
     return res.status(422).send("No audio config was provided.");
 
   try {
-    const speechResults = await fetch(
-      "https://speech.googleapis.com/v1/speech:recognize",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          audio: {
-            content: audioUrl,
-          },
-          config: audioConfig,
-        }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-goog-api-key": `${process.env.GOOGLE_SPEECH_TO_TEXT_API_KEY}`,
-        },
-      }
-    ).then((response) => response.json());
-    return res.send(speechResults);
+    // Build request compatible with v1p1beta1
+    const request: any = {
+      config: {
+        encoding: audioConfig.encoding || "LINEAR16",
+        sampleRateHertz: audioConfig.sampleRateHertz || 44100,
+        languageCode: audioConfig.languageCode || "en-US",
+        alternativeLanguageCodes: ["zh-CN"],
+        enableAutomaticPunctuation: audioConfig.enableAutomaticPunctuation ?? true,
+        // add other config fields as needed
+      },
+      audio: {
+        content: audioBase64,
+      },
+    };
+
+    const [response] = await client.recognize(request);
+    return res.json(response);
   } catch (err) {
     console.error("Error converting speech to text: ", err);
-    res.status(404).send(err);
+    res.status(500).send(err);
     return err;
   }
 };

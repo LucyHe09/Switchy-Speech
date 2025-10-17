@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/speech": "^7.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "expo": "^54.0.13",
