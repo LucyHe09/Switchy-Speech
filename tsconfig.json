@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "lib": ["es2021", "dom"],
+    "lib": [
+      "es2021",
+      "dom"
+    ],
     "module": "commonjs",
     "noImplicitReturns": true,
     "noImplicitAny": false,
@@ -11,5 +14,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "compileOnSave": true
+  "compileOnSave": true,
+  "extends": "expo/tsconfig.base"
 }
