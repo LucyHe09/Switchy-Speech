@@ -16,6 +16,7 @@ export const translateWithGemini = async (req: Request, res: Response) => {
 
     const target = typeof targetLanguage === "string" && targetLanguage.length ? targetLanguage : "en";
 
+    //call Gemini client to generate translation
     const translation = await generateTranslation(text, target);
 
     return res.json({ translation });
