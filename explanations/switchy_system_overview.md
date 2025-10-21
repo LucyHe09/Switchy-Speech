@@ -1,6 +1,6 @@
 # Switchy Speech — System Overview
 
-This document provides a high-level system architecture for the Switchy Speech project: major components, how they integrate, and where to start as a new contributor.
+This document provides a high-level system architecture for the Switchy Speech project: major components, how they integrate, and where to start understanding the codebase.
 
 ## 1) System Overview Diagram (Mermaid)
 
